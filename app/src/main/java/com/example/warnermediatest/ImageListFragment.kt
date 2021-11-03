@@ -20,11 +20,6 @@ class ImageListFragment: Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        val button: Button = view.findViewById(R.id.button)
-        button.setOnClickListener {
-            findNavController().navigate(R.id.action_imageListFragment_to_viewImageFragment, null)
-        }
     }
 
 }
