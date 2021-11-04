@@ -3,6 +3,7 @@ package com.example.warnermediatest
 import android.os.Bundle
 import android.view.*
 import android.widget.Button
+import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 
@@ -23,6 +24,9 @@ class ImageListFragment: Fragment() {
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.search_menu, menu)
+
+        val searchItem = menu?.findItem(R.id.search_bar)
+        val searchView = searchItem?.actionView as SearchView
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
