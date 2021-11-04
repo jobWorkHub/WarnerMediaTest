@@ -44,6 +44,10 @@ dependencies {
     implementation "androidx.navigation:navigation-fragment-ktx:$NAV_VERSION"
     implementation "androidx.navigation:navigation-ui-ktx:$NAV_VERSION"
 
+    // Networking
+    implementation 'com.android.volley:volley:1.2.1'
+    implementation 'com.google.code.gson:gson:2.8.9'
+
     // Testing
     testImplementation 'junit:junit:4.+'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'

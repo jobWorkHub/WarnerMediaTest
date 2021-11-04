@@ -6,6 +6,7 @@ import android.widget.Button
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import com.example.warnermediatest.Networking.NetworkManager
 
 class ImageListFragment: Fragment() {
 
@@ -20,6 +21,8 @@ class ImageListFragment: Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        context?.let { NetworkManager.getPhotos("Dogs", it) }
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
