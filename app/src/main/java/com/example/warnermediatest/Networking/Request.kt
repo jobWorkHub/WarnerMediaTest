@@ -23,7 +23,7 @@ class Request(context: Context) {
         ImageLoader(requestQueue,
             object : ImageLoader.ImageCache {
                 private val cache = LruCache<String, Bitmap>(20)
-                override fun getBitmap(url: String): Bitmap {
+                override fun getBitmap(url: String): Bitmap? {
                     return cache.get(url)
                 }
                 override fun putBitmap(url: String, bitmap: Bitmap) {
