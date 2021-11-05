@@ -1,19 +1,20 @@
-package com.example.warnermediatest
+package com.example.warnermediatest.Adapters
 
-import android.graphics.BitmapFactory
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import androidx.core.graphics.drawable.toBitmap
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.android.volley.toolbox.ImageLoader
 import com.android.volley.toolbox.NetworkImageView
+import com.example.warnermediatest.Fragments.ImageListFragmentDirections
 import com.example.warnermediatest.Networking.Model.ImageCell
 import com.example.warnermediatest.Networking.Request
+import com.example.warnermediatest.R
+import com.example.warnermediatest.WarnerApplication
 
 class RecyclerAdapter(): ListAdapter<ImageCell, RecyclerAdapter.ViewHolder>(DiffCalc()) {
 
@@ -33,7 +34,8 @@ class RecyclerAdapter(): ListAdapter<ImageCell, RecyclerAdapter.ViewHolder>(Diff
             if (imageLoader != null) {
 
                 val imageListener = ImageLoader.getImageListener(image, R.drawable.outline_image_24,
-                    R.drawable.outline_broken_image_24)
+                    R.drawable.outline_broken_image_24
+                )
 
                 imageLoader.get(imageCell.url, imageListener)
             }

@@ -1,4 +1,4 @@
-package com.example.warnermediatest;
+package com.example.warnermediatest.Fragments;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -14,6 +14,7 @@ import androidx.fragment.app.Fragment;
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.NetworkImageView;
 import com.example.warnermediatest.Networking.Request;
+import com.example.warnermediatest.R;
 
 public class ViewImageFragment extends Fragment {
 

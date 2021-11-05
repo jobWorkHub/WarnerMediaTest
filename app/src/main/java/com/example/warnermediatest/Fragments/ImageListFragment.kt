@@ -1,15 +1,15 @@
-package com.example.warnermediatest
+package com.example.warnermediatest.Fragments
 
 import android.os.Bundle
 import android.view.*
-import android.widget.Button
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.warnermediatest.Networking.Model.ImageCell
 import com.example.warnermediatest.Networking.NetworkManager
+import com.example.warnermediatest.R
+import com.example.warnermediatest.Adapters.RecyclerAdapter
 
 class ImageListFragment: Fragment() {
 
@@ -34,6 +34,7 @@ class ImageListFragment: Fragment() {
         recyclerView.adapter = recyclerAdapter
         recyclerView.layoutManager = LinearLayoutManager(context)
 
+        // Fill the list with searched content if coming from the ViewImageFragment
         if (listContent != null){
             recyclerAdapter.submitList(listContent)
         }
@@ -64,6 +65,18 @@ class ImageListFragment: Fragment() {
             }
 
         })
+
+//        searchView.setSearchableInfo()
+//        searchView.setOnSuggestionListener(object : SearchView.OnSuggestionListener {
+//            override fun onSuggestionSelect(position: Int): Boolean {
+//                TODO("Not yet implemented")
+//            }
+//
+//            override fun onSuggestionClick(position: Int): Boolean {
+//                TODO("Not yet implemented")
+//            }
+//
+//        })
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
