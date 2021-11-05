@@ -19,8 +19,11 @@ class RecyclerAdapter(): ListAdapter<ImageCell, RecyclerAdapter.ViewHolder>(Diff
 
     inner class ViewHolder(itemView: View): RecyclerView.ViewHolder(itemView), View.OnClickListener {
 
+        private var imageCell: ImageCell? = null
+
         fun bind(imageCell: ImageCell){
             itemView.setOnClickListener(this)
+            this.imageCell = imageCell
             val text: TextView = itemView.findViewById(R.id.cell_text)
             text.text = imageCell.title
 
@@ -39,7 +42,8 @@ class RecyclerAdapter(): ListAdapter<ImageCell, RecyclerAdapter.ViewHolder>(Diff
 
         override fun onClick(v: View?) {
             if (v != null) {
-                v.findNavController().navigate(R.id.action_imageListFragment_to_viewImageFragment)
+                val action = ImageListFragmentDirections.actionImageListFragmentToViewImageFragment(imageCell!!.url)
+                v.findNavController().navigate(action)
             }
         }
 
