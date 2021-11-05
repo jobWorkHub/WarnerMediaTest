@@ -70,9 +70,9 @@ class ImageListFragment: Fragment() {
                     if (v != null && v.text != null) {
                         pastSearchesAdapter?.add(v.text.toString())
                         progressSpinner.visibility = ProgressBar.VISIBLE
-                        NetworkManager.getPhotos(v.text.toString()) {
-                            listContent = it
-                            recyclerAdapter.submitList(it)
+                        NetworkManager.getPhotos(v.text.toString()) { images ->
+                            listContent = images
+                            recyclerAdapter.submitList(images)
                             progressSpinner.visibility = ProgressBar.INVISIBLE
                         }
                     }
