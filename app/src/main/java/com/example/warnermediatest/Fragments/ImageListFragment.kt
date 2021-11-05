@@ -1,8 +1,14 @@
 package com.example.warnermediatest.Fragments
 
+import android.content.Context
 import android.os.Bundle
 import android.view.*
+import android.view.inputmethod.EditorInfo
+import android.view.inputmethod.InputMethodManager
+import android.widget.ArrayAdapter
+import android.widget.AutoCompleteTextView
 import android.widget.ProgressBar
+import android.widget.TextView
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -18,6 +24,7 @@ class ImageListFragment: Fragment() {
     lateinit var recyclerAdapter: RecyclerAdapter
     lateinit var progressSpinner: ProgressBar
     var listContent: ArrayList<ImageCell>? = null
+    var pastSearches: ArrayAdapter<String>? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -49,15 +56,22 @@ class ImageListFragment: Fragment() {
         inflater.inflate(R.menu.search_menu, menu)
 
         val searchItem = menu?.findItem(R.id.search_bar)
-        val searchView = searchItem?.actionView as SearchView
+        val searchView = searchItem?.actionView as AutoCompleteTextView
+        pastSearches =
+            context?.let { ArrayAdapter(it, android.R.layout.simple_list_item_1, ArrayList<String>()) }
+        searchView.setAdapter(pastSearches)
 
-        searchView.queryHint = "Search images"
-        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-            override fun onQueryTextSubmit(query: String?): Boolean {
-                context?.let {
-                    if (query != null) {
+        // Set up the search view to request images based of an inputed search term
+        searchView.hint = "Search images"
+        searchView.imeOptions = EditorInfo.IME_ACTION_SEARCH
+        searchView.inputType = EditorInfo.TYPE_TEXT_VARIATION_FILTER
+        searchView.setOnEditorActionListener(object : TextView.OnEditorActionListener {
+            override fun onEditorAction(v: TextView?, actionId: Int, event: KeyEvent?): Boolean {
+                if (actionId == EditorInfo.IME_ACTION_SEARCH){
+                    if (v != null && v.text != null) {
+                        pastSearches?.add(v.text.toString())
                         progressSpinner.visibility = ProgressBar.VISIBLE
-                        NetworkManager.getPhotos(query) {
+                        NetworkManager.getPhotos(v.text.toString()) {
                             listContent = it
                             recyclerAdapter.submitList(it)
                             progressSpinner.visibility = ProgressBar.INVISIBLE
@@ -66,24 +80,16 @@ class ImageListFragment: Fragment() {
                 }
                 return true
             }
-
-            override fun onQueryTextChange(newText: String?): Boolean {
-                return false
-            }
-
         })
 
-//        searchView.setSearchableInfo()
-//        searchView.setOnSuggestionListener(object : SearchView.OnSuggestionListener {
-//            override fun onSuggestionSelect(position: Int): Boolean {
-//                TODO("Not yet implemented")
-//            }
-//
-//            override fun onSuggestionClick(position: Int): Boolean {
-//                TODO("Not yet implemented")
-//            }
-//
-//        })
+        // Dismisses the keyboard when the textview loses focus
+        searchView.setOnFocusChangeListener { v, hasFocus ->
+            if (!hasFocus){
+                val imm = context?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+                imm.hideSoftInputFromWindow(view?.windowToken, 0)
+            }
+        }
+
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
