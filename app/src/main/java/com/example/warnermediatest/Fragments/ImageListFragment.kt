@@ -2,6 +2,7 @@ package com.example.warnermediatest.Fragments
 
 import android.os.Bundle
 import android.view.*
+import android.widget.ProgressBar
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -15,6 +16,7 @@ class ImageListFragment: Fragment() {
 
     lateinit var recyclerView: RecyclerView
     lateinit var recyclerAdapter: RecyclerAdapter
+    lateinit var progressSpinner: ProgressBar
     var listContent: ArrayList<ImageCell>? = null
 
     override fun onCreateView(
@@ -29,6 +31,9 @@ class ImageListFragment: Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        progressSpinner = view.findViewById(R.id.progress_spinner)
+
+        // Set up list
         recyclerView = view.findViewById(R.id.image_list)
         recyclerAdapter = RecyclerAdapter()
         recyclerView.adapter = recyclerAdapter
@@ -51,9 +56,11 @@ class ImageListFragment: Fragment() {
             override fun onQueryTextSubmit(query: String?): Boolean {
                 context?.let {
                     if (query != null) {
+                        progressSpinner.visibility = ProgressBar.VISIBLE
                         NetworkManager.getPhotos(query) {
                             listContent = it
                             recyclerAdapter.submitList(it)
+                            progressSpinner.visibility = ProgressBar.INVISIBLE
                         }
                     }
                 }
