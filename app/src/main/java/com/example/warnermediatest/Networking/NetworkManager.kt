@@ -16,7 +16,7 @@ class NetworkManager {
         private val API_KEY = "1508443e49213ff84d566777dc211f2a"
         private val BASE_URL = "https://www.flickr.com/services/rest/"
 
-        fun getPhotos(term: String, onComplete: (ArrayList<ImageCell>) -> Unit){
+        fun getPhotos(term: String, onComplete: (PhotoResults) -> Unit){
 
             val url = "https://www.flickr.com/services/rest/?method=flickr.photos.search&api_key=$API_KEY&text=$term&media=photos&format=json"
 
@@ -25,24 +25,12 @@ class NetworkManager {
                 val parsedResponse = response.removePrefix("jsonFlickrApi(").removeSuffix(")")
                 val photoDetails = gson.fromJson(parsedResponse, PhotoResults::class.java)
 
-                var urls = ArrayList<ImageCell>()
-                for (photo in photoDetails.photos.photo) {
-                    urls.add(ImageCell(makePhotoURL(photo), photo.title))
-                }
-
-                onComplete(urls)
+                onComplete(photoDetails)
 
                  }, {
                     print("error")
             })
             WarnerApplication.getContext()?.let { Request.getInstance(it).addToRequestQueue(request) }
-        }
-
-        fun makePhotoURL(photo: Photo): String{
-            val baseUrl = "https://live.staticflickr.com/"
-            val resource = "${photo.server}/${photo.id}_${photo.secret}_q.jpg"
-
-            return baseUrl + resource
         }
     }
 

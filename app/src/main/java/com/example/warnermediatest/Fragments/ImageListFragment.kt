@@ -16,13 +16,16 @@ import com.example.warnermediatest.Networking.Model.ImageCell
 import com.example.warnermediatest.Networking.NetworkManager
 import com.example.warnermediatest.R
 import com.example.warnermediatest.Adapters.RecyclerAdapter
+import com.example.warnermediatest.ImageSize
+import com.example.warnermediatest.Networking.Model.PhotoResults
+import com.example.warnermediatest.Networking.Model.Photos
 
 class ImageListFragment: Fragment() {
 
     lateinit var recyclerView: RecyclerView
     lateinit var recyclerAdapter: RecyclerAdapter
     lateinit var progressSpinner: ProgressBar
-    var listContent: ArrayList<ImageCell>? = null
+    var listContent: Photos? = null
     var pastSearchesAdapter: ArrayAdapter<String>? = null
 
     override fun onCreateView(
@@ -46,9 +49,8 @@ class ImageListFragment: Fragment() {
         recyclerView.layoutManager = LinearLayoutManager(context)
 
         // Fill the list with searched content if coming from the ViewImageFragment
-        if (listContent != null){
-            recyclerAdapter.submitList(listContent)
-        }
+        recyclerAdapter.submitList(listContent?.photo)
+
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -70,9 +72,11 @@ class ImageListFragment: Fragment() {
                     if (v != null && v.text != null) {
                         pastSearchesAdapter?.add(v.text.toString())
                         progressSpinner.visibility = ProgressBar.VISIBLE
-                        NetworkManager.getPhotos(v.text.toString()) { images ->
-                            listContent = images
-                            recyclerAdapter.submitList(images)
+                        NetworkManager.getPhotos(v.text.toString()) { imageDetails ->
+                            listContent = imageDetails.photos
+                            listContent?.let{
+                                recyclerAdapter.submitList(it.photo)
+                            }
                             progressSpinner.visibility = ProgressBar.INVISIBLE
                         }
                     }

@@ -11,22 +11,26 @@ import androidx.recyclerview.widget.RecyclerView
 import com.android.volley.toolbox.ImageLoader
 import com.android.volley.toolbox.NetworkImageView
 import com.example.warnermediatest.Fragments.ImageListFragmentDirections
+import com.example.warnermediatest.ImageSize
 import com.example.warnermediatest.Networking.Model.ImageCell
+import com.example.warnermediatest.Networking.Model.Photo
+import com.example.warnermediatest.Networking.Model.url
 import com.example.warnermediatest.Networking.Request
 import com.example.warnermediatest.R
 import com.example.warnermediatest.WarnerApplication
 
-class RecyclerAdapter(): ListAdapter<ImageCell, RecyclerAdapter.ViewHolder>(DiffCalc()) {
+class RecyclerAdapter(): ListAdapter<Photo, RecyclerAdapter.ViewHolder>(DiffCalc()) {
 
     inner class ViewHolder(itemView: View): RecyclerView.ViewHolder(itemView), View.OnClickListener {
 
-        private var imageCell: ImageCell? = null
+        private var photo: Photo? = null
+        private var imageSize = ImageSize.LARGE_CROPPED_THUMBNAIL
 
-        fun bind(imageCell: ImageCell){
+        fun bind(photo: Photo){
             itemView.setOnClickListener(this)
-            this.imageCell = imageCell
+            this.photo = photo
             val text: TextView = itemView.findViewById(R.id.cell_text)
-            text.text = imageCell.title
+            text.text = photo.title
 
             val image: NetworkImageView = itemView.findViewById(R.id.cell_image)
 
@@ -37,26 +41,26 @@ class RecyclerAdapter(): ListAdapter<ImageCell, RecyclerAdapter.ViewHolder>(Diff
                     R.drawable.outline_broken_image_24
                 )
 
-                imageLoader.get(imageCell.url, imageListener)
+                imageLoader.get(photo.url(imageSize), imageListener)
             }
-            image.setImageUrl(imageCell.url, imageLoader)
+            image.setImageUrl(photo.url(imageSize), imageLoader)
         }
 
         override fun onClick(v: View?) {
             if (v != null) {
-                val action = ImageListFragmentDirections.actionImageListFragmentToViewImageFragment(imageCell!!.url)
+                val action = ImageListFragmentDirections.actionImageListFragmentToViewImageFragment(photo!!.url(imageSize))
                 v.findNavController().navigate(action)
             }
         }
 
     }
 
-    class DiffCalc: DiffUtil.ItemCallback<ImageCell>(){
-        override fun areItemsTheSame(oldItem: ImageCell, newItem: ImageCell): Boolean {
+    class DiffCalc: DiffUtil.ItemCallback<Photo>(){
+        override fun areItemsTheSame(oldItem: Photo, newItem: Photo): Boolean {
             return oldItem === newItem
         }
 
-        override fun areContentsTheSame(oldItem: ImageCell, newItem: ImageCell): Boolean {
+        override fun areContentsTheSame(oldItem: Photo, newItem: Photo): Boolean {
             return oldItem == newItem
         }
     }

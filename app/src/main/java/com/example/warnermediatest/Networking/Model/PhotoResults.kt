@@ -41,11 +41,11 @@ fun Photo.url(size: ImageSize): String {
     return baseUrl + resource
 }
 
-fun Photos.urls(size: ImageSize): ArrayList<String> {
-    val result = ArrayList<String>()
-    for (photo in this.photo) {
-        result.add(photo.url(size))
-    }
-
-    return result
-}
+//fun Photos.imageCells(size: ImageSize): ArrayList<ImageCell> {
+//    val result = ArrayList<ImageCell>()
+//    for (photo in this.photo) {
+//        result.add(ImageCell(photo.url(size), photo.title))
+//    }
+//
+//    return result
+//}
