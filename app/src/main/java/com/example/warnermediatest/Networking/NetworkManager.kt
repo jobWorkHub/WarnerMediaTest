@@ -1,6 +1,7 @@
 package com.example.warnermediatest.Networking
 
 import com.android.volley.toolbox.StringRequest
+import com.example.warnermediatest.JavaWarnerApplication
 import com.example.warnermediatest.Networking.Model.PhotoResults
 import com.example.warnermediatest.WarnerApplication
 import com.google.gson.Gson
@@ -26,7 +27,8 @@ class NetworkManager {
                  }, {
                     print("error")
             })
-            WarnerApplication.getContext()?.let { Request.getInstance(it).addToRequestQueue(request) }
+            
+            JavaWarnerApplication.getAppContext().let { Request.getInstance(it).addToRequestQueue(request) }
         }
     }
 

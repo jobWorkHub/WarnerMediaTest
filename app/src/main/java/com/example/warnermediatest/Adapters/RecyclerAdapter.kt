@@ -12,6 +12,7 @@ import com.android.volley.toolbox.ImageLoader
 import com.android.volley.toolbox.NetworkImageView
 import com.example.warnermediatest.Fragments.ImageListFragmentDirections
 import com.example.warnermediatest.ImageSize
+import com.example.warnermediatest.JavaWarnerApplication
 import com.example.warnermediatest.Networking.Model.Photo
 import com.example.warnermediatest.Networking.Model.url
 import com.example.warnermediatest.Networking.Request
@@ -33,7 +34,7 @@ class RecyclerAdapter(): ListAdapter<Photo, RecyclerAdapter.ViewHolder>(DiffCalc
 
             val image: NetworkImageView = itemView.findViewById(R.id.cell_image)
 
-            val imageLoader = WarnerApplication.getContext()?.let { Request.getInstance(it).imageLoader }
+            val imageLoader = JavaWarnerApplication.getAppContext().let { Request.getInstance(it).imageLoader }
             if (imageLoader != null) {
 
                 val imageListener = ImageLoader.getImageListener(image, R.drawable.outline_image_24,
