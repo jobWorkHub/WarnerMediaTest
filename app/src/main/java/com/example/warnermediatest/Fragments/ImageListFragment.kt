@@ -9,7 +9,6 @@ import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
 import android.widget.ProgressBar
 import android.widget.TextView
-import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -24,7 +23,7 @@ class ImageListFragment: Fragment() {
     lateinit var recyclerAdapter: RecyclerAdapter
     lateinit var progressSpinner: ProgressBar
     var listContent: ArrayList<ImageCell>? = null
-    var pastSearches: ArrayAdapter<String>? = null
+    var pastSearchesAdapter: ArrayAdapter<String>? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -57,9 +56,9 @@ class ImageListFragment: Fragment() {
 
         val searchItem = menu?.findItem(R.id.search_bar)
         val searchView = searchItem?.actionView as AutoCompleteTextView
-        pastSearches =
+        pastSearchesAdapter =
             context?.let { ArrayAdapter(it, android.R.layout.simple_list_item_1, ArrayList<String>()) }
-        searchView.setAdapter(pastSearches)
+        searchView.setAdapter(pastSearchesAdapter)
 
         // Set up the search view to request images based of an inputed search term
         searchView.hint = "Search images"
@@ -69,7 +68,7 @@ class ImageListFragment: Fragment() {
             override fun onEditorAction(v: TextView?, actionId: Int, event: KeyEvent?): Boolean {
                 if (actionId == EditorInfo.IME_ACTION_SEARCH){
                     if (v != null && v.text != null) {
-                        pastSearches?.add(v.text.toString())
+                        pastSearchesAdapter?.add(v.text.toString())
                         progressSpinner.visibility = ProgressBar.VISIBLE
                         NetworkManager.getPhotos(v.text.toString()) {
                             listContent = it
