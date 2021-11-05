@@ -12,12 +12,9 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.warnermediatest.Networking.Model.ImageCell
 import com.example.warnermediatest.Networking.NetworkManager
 import com.example.warnermediatest.R
 import com.example.warnermediatest.Adapters.RecyclerAdapter
-import com.example.warnermediatest.ImageSize
-import com.example.warnermediatest.Networking.Model.PhotoResults
 import com.example.warnermediatest.Networking.Model.Photos
 
 class ImageListFragment: Fragment() {

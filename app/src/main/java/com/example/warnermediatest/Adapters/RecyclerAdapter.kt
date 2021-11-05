@@ -12,7 +12,6 @@ import com.android.volley.toolbox.ImageLoader
 import com.android.volley.toolbox.NetworkImageView
 import com.example.warnermediatest.Fragments.ImageListFragmentDirections
 import com.example.warnermediatest.ImageSize
-import com.example.warnermediatest.Networking.Model.ImageCell
 import com.example.warnermediatest.Networking.Model.Photo
 import com.example.warnermediatest.Networking.Model.url
 import com.example.warnermediatest.Networking.Request

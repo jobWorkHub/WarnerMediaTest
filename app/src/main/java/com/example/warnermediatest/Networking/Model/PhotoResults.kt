@@ -40,12 +40,3 @@ fun Photo.url(size: ImageSize): String {
 
     return baseUrl + resource
 }
-
-//fun Photos.imageCells(size: ImageSize): ArrayList<ImageCell> {
-//    val result = ArrayList<ImageCell>()
-//    for (photo in this.photo) {
-//        result.add(ImageCell(photo.url(size), photo.title))
-//    }
-//
-//    return result
-//}

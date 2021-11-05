@@ -1,10 +1,6 @@
 package com.example.warnermediatest.Networking
 
-import android.content.Context
-import com.android.volley.Response
 import com.android.volley.toolbox.StringRequest
-import com.example.warnermediatest.Networking.Model.ImageCell
-import com.example.warnermediatest.Networking.Model.Photo
 import com.example.warnermediatest.Networking.Model.PhotoResults
 import com.example.warnermediatest.WarnerApplication
 import com.google.gson.Gson
