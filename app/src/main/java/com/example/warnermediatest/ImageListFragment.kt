@@ -8,12 +8,14 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.warnermediatest.Networking.Model.ImageCell
 import com.example.warnermediatest.Networking.NetworkManager
 
 class ImageListFragment: Fragment() {
 
     lateinit var recyclerView: RecyclerView
     lateinit var recyclerAdapter: RecyclerAdapter
+    var listContent: ArrayList<ImageCell>? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -32,9 +34,9 @@ class ImageListFragment: Fragment() {
         recyclerView.adapter = recyclerAdapter
         recyclerView.layoutManager = LinearLayoutManager(context)
 
-        context?.let { NetworkManager.getPhotos("Dogs") {
-            recyclerAdapter.submitList(it)
-        }}
+        if (listContent != null){
+            recyclerAdapter.submitList(listContent)
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -42,6 +44,26 @@ class ImageListFragment: Fragment() {
 
         val searchItem = menu?.findItem(R.id.search_bar)
         val searchView = searchItem?.actionView as SearchView
+
+        searchView.queryHint = "Search images"
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                context?.let {
+                    if (query != null) {
+                        NetworkManager.getPhotos(query) {
+                            listContent = it
+                            recyclerAdapter.submitList(it)
+                        }
+                    }
+                }
+                return true
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                return false
+            }
+
+        })
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
